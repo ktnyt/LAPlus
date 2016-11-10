@@ -1,0 +1,6 @@
+[submodule "external/OpenBLAS"]
+	path = external/OpenBLAS
+	url = https://github.com/xianyi/OpenBLAS.git
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/google/googletest.git
