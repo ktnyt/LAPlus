@@ -33,7 +33,6 @@
 #include <cmath>
 #include <cstring>
 #include <array>
-#include <iostream>
 #include <ostream>
 #include <algorithm>
 #include <functional>
@@ -528,6 +527,16 @@ public:
   void pow(const float value)
   { for(std::size_t i = 0; i < Size; ++i)
       *(this->buffer + i) = std::pow(*(this->buffer + i), value); }
+
+  void apply(const std::function<float(float)>& f)
+  { for(std::size_t i = 0; i < Size; ++i) *(this->buffer + i) = f(*(this->buffer + i)); }
+
+  Array unaryExpr(const std::function<float(float)>& f)
+  {
+    Array result(this->clone());
+    result.apply(f);
+    return result;
+  }
 private:
   std::shared_ptr<float> shared;
   float* buffer;

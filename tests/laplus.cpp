@@ -997,5 +997,43 @@ TEST(ArrayArithmetic, PowFloat)
   ASSERT_EQ(t0.use_count(), 1);
 }
 
+float square(float v) { return v * v; }
+
+TEST(ArrayArithmetic, Apply)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({1, 4, 9, 16, 25, 36});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  t0.apply(square);
+
+  ASSERT_EQ(t0, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, UnaryExpr)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({1, 4, 9, 16, 25, 36});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+
+  t1 = t0.unaryExpr(square);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+}
+
 }
 }
