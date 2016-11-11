@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-option(EXTERNAL_BUILD_THREADS "Number of threads for make" 1)
+set(EXERNAL_BUILD_THREADS 1 CACHE STRING "Number of threads to build external projects")
 
 ExternalProject_Add(
   googletest
