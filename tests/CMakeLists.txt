@@ -1,9 +1,10 @@
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
-
-enable_testing()
-
 if (test)
+  find_package(Threads REQUIRED)
+  include_directories(${CMAKE_INSTALL_PREFIX}/include)
+  link_directories(${CMAKE_INSTALL_PREFIX}/lib)
+  enable_testing()
   add_executable(unit_tests laplus.cpp)
-  target_link_libraries(unit_tests gtest gtest_main openblas)
+  add_dependencies(unit_tests googletest OpenBLAS)
+  target_link_libraries(unit_tests openblas gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
   add_test(NAME laplus-test COMMAND unit_tests)
 endif()

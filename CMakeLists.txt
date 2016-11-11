@@ -18,8 +18,11 @@ else()
 endif()
 
 # Include directories for LAPlus
-include_directories(${PROJECT_SOURCE_DIR})
-include_directories(${PROJECT_BINARY_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# External project locations
+include_directories(${PROJECT_BINARY_DIR}/external/include)
+link_directories(${PROJECT_BINARY_DIR}/external/lib)
 
 add_subdirectory(external)
 add_subdirectory(tests)
