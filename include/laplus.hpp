@@ -360,10 +360,13 @@ public:
   }
 
   float& operator()(const std::size_t i) const
-  { return *(this->buffer + this->offset + i); }
+  { return *(this->buffer + this->offset + this->stride * i); }
 
   float& operator()(const std::size_t i, const std::size_t j) const
-  { return *(this->buffer + this->offset + (Trans ? Rows : Cols) * i + j); }
+  {
+    if(Cols == 1) return (*this)(i);
+    return *(this->buffer + (Trans ? Rows : Cols) * i + j);
+  }
 
   /* Miscellaneous Operators */
   friend std::ostream& operator<<(std::ostream& ostream, const Array& array)
@@ -515,21 +518,19 @@ public:
 
   /* Arithmetic */
   void mul(const Array& other)
-  { for(std::size_t i = 0; i < Size; ++i) *(this->buffer + i) *= *(other.buffer + i); }
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) *= other(i); }
 
   void div(const Array& other)
-  { for(std::size_t i = 0; i < Size; ++i) *(this->buffer + i) /= *(other.buffer + i); }
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) /= other(i); }
 
   void pow(const Array& other)
-  { for(std::size_t i = 0; i < Size; ++i)
-      *(this->buffer + i) = std::pow(*(this->buffer + i), *(other.buffer + i)); }
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = std::pow((*this)(i), other(i)); }
 
   void pow(const float value)
-  { for(std::size_t i = 0; i < Size; ++i)
-      *(this->buffer + i) = std::pow(*(this->buffer + i), value); }
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = std::pow((*this)(i), value); }
 
   void apply(const std::function<float(float)>& f)
-  { for(std::size_t i = 0; i < Size; ++i) *(this->buffer + i) = f(*(this->buffer + i)); }
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = f((*this)(i)); }
 
   Array unaryExpr(const std::function<float(float)>& f)
   {
