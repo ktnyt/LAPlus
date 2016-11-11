@@ -53,6 +53,7 @@ public:
   /* Construtors & Destructor */
   Array() = delete;
 
+private:
   Array(const Array& other)
     : shared(other.shared), buffer(other.buffer)
     , offset(other.offset), stride(other.stride) {}
@@ -66,6 +67,7 @@ public:
   Array(const Array<Rows>& other, const std::size_t offset, const std::size_t stride)
     : shared(other.shared), buffer(other.buffer), offset(offset), stride(stride) {}
 
+public:
   virtual ~Array() {}
 
   /* Assignment Operators */
