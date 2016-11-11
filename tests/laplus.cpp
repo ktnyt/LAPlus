@@ -827,6 +827,162 @@ TEST(ArrayLevel3BLAS, GEMM)
   ASSERT_EQ(t5.use_count(), 1);
 }
 
+TEST(ArrayExtensions, Transpose)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<2, 3, true> t1;
+  Array<2, 3> t2({1, 3, 5, 2, 4, 6});
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({1, 3, 5, 2, 4, 6});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t2, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+
+  t1 = t0.transpose();
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a2);
+  ASSERT_EQ(t2, a2);
+  ASSERT_EQ(t0.use_count(), 2);
+  ASSERT_EQ(t1.use_count(), 2);
+  ASSERT_EQ(t2.use_count(), 1);
+
+  ASSERT_EQ(t1, t2);
+}
+
+TEST(ArrayExtensions, Reshape)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<2, 3> t1;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+
+  t1 = t0.reshape<2, 3>();
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a0);
+  ASSERT_EQ(t0.use_count(), 2);
+  ASSERT_EQ(t1.use_count(), 2);
+}
+
+TEST(ArrayExtensions, MaxCoeff)
+{
+  Array<3, 2> t0({1, -2, 3, -6, 5, -4});
+  std::array<float, 6> a0({1, -2, 3, -6, 5, -4});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  float f0 = t0.maxCoeff();
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  ASSERT_FLOAT_EQ(f0, 5);
+}
+
+TEST(ArrayExtensions, MaxCoeffI)
+{
+  Array<3, 2> t0({1, -2, 3, -6, 5, -4});
+  std::array<float, 6> a0({1, -2, 3, -6, 5, -4});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  std::size_t s0;
+  float f0 = t0.maxCoeff(&s0);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  ASSERT_FLOAT_EQ(f0, 5);
+  ASSERT_EQ(s0, 4);
+}
+
+TEST(ArrayExtensions, MaxCoeffIJ)
+{
+  Array<3, 2> t0({1, -2, 3, -6, 5, -4});
+  std::array<float, 6> a0({1, -2, 3, -6, 5, -4});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  std::size_t s0;
+  std::size_t s1;
+  float f0 = t0.maxCoeff(&s0, &s1);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  ASSERT_FLOAT_EQ(f0, 5);
+  ASSERT_EQ(s0, 2);
+  ASSERT_EQ(s1, 0);
+}
+
+TEST(ArrayExtensions, MinCoeff)
+{
+  Array<3, 2> t0({1, -2, 3, -6, 5, -4});
+  std::array<float, 6> a0({1, -2, 3, -6, 5, -4});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  float f0 = t0.minCoeff();
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  ASSERT_FLOAT_EQ(f0, -6);
+}
+
+TEST(ArrayExtensions, MinCoeffI)
+{
+  Array<3, 2> t0({1, -2, 3, -6, 5, -4});
+  std::array<float, 6> a0({1, -2, 3, -6, 5, -4});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  std::size_t s0;
+  float f0 = t0.minCoeff(&s0);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  ASSERT_FLOAT_EQ(f0, -6);
+  ASSERT_EQ(s0, 3);
+}
+
+TEST(ArrayExtensions, MinCoeffIJ)
+{
+  Array<3, 2> t0({1, -2, 3, -6, 5, -4});
+  std::array<float, 6> a0({1, -2, 3, -6, 5, -4});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  std::size_t s0;
+  std::size_t s1;
+  float f0 = t0.minCoeff(&s0, &s1);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  ASSERT_FLOAT_EQ(f0, -6);
+  ASSERT_EQ(s0, 1);
+  ASSERT_EQ(s1, 1);
+}
+
 TEST(ArrayLinearAlgebra, Dot)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});

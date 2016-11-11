@@ -501,6 +501,92 @@ public:
     : shared(other.shared), buffer(other.buffer), offset(offset), stride(stride)
   {}
 
+  const float maxCoeff()
+  {
+    std::size_t max_i = 0;
+    float max_v = (*this)(max_i);
+    for(std::size_t i = 0; i < Size; ++i) {
+      if(max_v < (*this)(i)) {
+        max_v = (*this)(i);
+        max_i = i;
+      }
+    }
+    return max_v;
+  }
+
+  const float maxCoeff(std::size_t* max_i)
+  {
+    *max_i = 0;
+    float max_v = (*this)(*max_i);
+    for(std::size_t i = 0; i < Size; ++i) {
+      if(max_v < (*this)(i)) {
+        max_v = (*this)(i);
+        *max_i = i;
+      }
+    }
+    return max_v;
+  }
+
+  const float maxCoeff(std::size_t* max_i, std::size_t* max_j)
+  {
+    *max_i = 0;
+    *max_j = 0;
+    float max_v = (*this)(*max_i, *max_j);
+    for(std::size_t i = 0; i < Rows; ++i) {
+      for(std::size_t j = 0; j < Cols; ++j) {
+        if(max_v < (*this)(i, j)) {
+          max_v = (*this)(i, j);
+          *max_i = i;
+          *max_j = j;
+        }
+      }
+    }
+    return max_v;
+  }
+
+  const float minCoeff()
+  {
+    std::size_t min_i = 0;
+    float min_v = (*this)(min_i);
+    for(std::size_t i = 0; i < Size; ++i) {
+      if(min_v > (*this)(i)) {
+        min_v = (*this)(i);
+        min_i = i;
+      }
+    }
+    return min_v;
+  }
+
+  const float minCoeff(std::size_t* min_i)
+  {
+    *min_i = 0;
+    float min_v = (*this)(*min_i);
+    for(std::size_t i = 0; i < Size; ++i) {
+      if(min_v > (*this)(i)) {
+        min_v = (*this)(i);
+        *min_i = i;
+      }
+    }
+    return min_v;
+  }
+
+  const float minCoeff(std::size_t* min_i, std::size_t* min_j)
+  {
+    *min_i = 0;
+    *min_j = 0;
+    float min_v = (*this)(*min_i, *min_j);
+    for(std::size_t i = 0; i < Rows; ++i) {
+      for(std::size_t j = 0; j < Cols; ++j) {
+        if(min_v > (*this)(i, j)) {
+          min_v = (*this)(i, j);
+          *min_i = i;
+          *min_j = j;
+        }
+      }
+    }
+    return min_v;
+  }
+
   /* Linear Algebra */
   template<std::size_t Shared, bool Trans2>
   Array<Rows, Shared> dot(const Array<Cols, Shared, Trans2>& other) const
@@ -556,17 +642,46 @@ bool operator==(const Array<Rows, Cols, Trans>& array1, const Array<Rows, Cols, 
   return true;
 }
 
+template<std::size_t Rows, std::size_t Cols>
+bool operator==(const Array<Rows, Cols, false>& array1, const Array<Rows, Cols, true>& array2)
+{
+  for(std::size_t i = 0; i < Rows; ++i) {
+    for(std::size_t j = 0; j < Cols; ++j) {
+      if(array1(i, j) != array2(j, i)) return false;
+    }
+  }
+  return true;
+}
+
+template<std::size_t Rows, std::size_t Cols>
+bool operator==(const Array<Rows, Cols, true>& array1, const Array<Rows, Cols, false>& array2)
+{
+  return array2 == array1;
+}
+
 template<std::size_t Rows, std::size_t Cols, bool Trans>
 bool operator!=(const Array<Rows, Cols, Trans>& array1, const Array<Rows, Cols, Trans>& array2)
 { return !(array1 == array2); }
 
-template<std::size_t Rows, std::size_t Cols, bool Trans>
-bool operator==(const Array<Rows, Cols, Trans>& array1,
+template<std::size_t Rows, std::size_t Cols>
+bool operator==(const Array<Rows, Cols, false>& array1,
                 const std::array<float, Rows*Cols>& array2)
 {
   for(std::size_t i = 0; i < Rows; ++i) {
     for(std::size_t j = 0; j < Cols; ++j) {
       if(array1(i, j) != array2[Cols * i + j]) return false;
+    }
+  }
+  return true;
+}
+
+template<std::size_t Rows, std::size_t Cols>
+bool operator==(const Array<Rows, Cols, true>& array1,
+                const std::array<float, Rows*Cols>& array2)
+{
+  for(std::size_t i = 0; i < Rows; ++i) {
+    for(std::size_t j = 0; j < Cols; ++j) {
+      if(array1(j, i) != array2[Cols * i + j]) return false;
     }
   }
   return true;
