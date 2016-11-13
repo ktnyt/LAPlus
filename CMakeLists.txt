@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
-option(test "Build tests" ON)
-option(benchmark "Build benchmarks" ON)
+option(LAPLUS_TEST "Build tests" ON)
+option(LAPLUS_BENCH "Build benchmarks" ON)
 
 set(PROJECT_NAME LAPlus)
 project(${PROJECT_NAME})
