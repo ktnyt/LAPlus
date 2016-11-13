@@ -237,15 +237,27 @@ public:
     return *this;
   }
 
+  Array& operator+=(const float rhs)
+  {
+    this->add_inplace(rhs);
+    return *this;
+  }
+
   Array& operator-=(const Array& rhs)
   {
     *this += -rhs;
     return *this;
   }
 
+  Array& operator-=(const float rhs)
+  {
+    this->sub_inplace(rhs);
+    return *this;
+  }
+
   Array& operator*=(const Array& rhs)
   {
-    this->mul(rhs);
+    this->mul_inplace(rhs);
     return *this;
   }
 
@@ -257,7 +269,7 @@ public:
 
   Array& operator/=(const Array& rhs)
   {
-    this->div(rhs);
+    this->div_inplace(rhs);
     return *this;
   }
 
@@ -269,13 +281,13 @@ public:
 
   Array& operator^=(const Array& rhs)
   {
-    this->pow(rhs);
+    this->pow_inplace(rhs);
     return *this;
   }
 
   Array& operator^=(const float value)
   {
-    this->pow(value);
+    this->pow_inplace(value);
     return *this;
   }
 
@@ -296,10 +308,24 @@ public:
     return result;
   }
 
+  Array operator+(const float value) const
+  {
+    Array result(this->clone());
+    result += value;
+    return result;
+  }
+
   Array operator-(const Array& other) const
   {
     Array result(this->clone());
     result -= other;
+    return result;
+  }
+
+  Array operator-(const float value) const
+  {
+    Array result(this->clone());
+    result -= value;
     return result;
   }
 
@@ -310,10 +336,10 @@ public:
     return result;
   }
 
-  Array operator*(const float other) const
+  Array operator*(const float value) const
   {
     Array result(this->clone());
-    result *= other;
+    result *= value;
     return result;
   }
 
@@ -329,10 +355,10 @@ public:
     return result;
   }
 
-  Array operator/(const float other) const
+  Array operator/(const float value) const
   {
     Array result(this->clone());
-    result /= other;
+    result /= value;
     return result;
   }
 
@@ -348,10 +374,10 @@ public:
     return result;
   }
 
-  Array operator^(const float other) const
+  Array operator^(const float value) const
   {
     Array result(this->clone());
-    result ^= other;
+    result ^= value;
     return result;
   }
 
@@ -613,22 +639,87 @@ public:
   { this->gemm(1.0, B, A, 0.0); }
 
   /* Arithmetic */
-  void mul(const Array& other)
+  void add_inplace(const float value)
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) += value; }
+
+  Array add(const float value) const
+  {
+    Array result(this->clone());
+    result.add_inplace(value);
+    return result;
+  }
+
+  void sub_inplace(const float value)
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) -= value; }
+
+  Array sub(const float value) const
+  {
+    Array result(this->clone());
+    result.sub_inplace(value);
+    return result;
+  }
+
+  Array sub(const Array& other) const
+  {
+    Array result(this->clone());
+    result.add_inplace(other);
+    return result;
+  }
+
+  void mul_inplace(const Array& other)
   { for(std::size_t i = 0; i < Size; ++i) (*this)(i) *= other(i); }
 
-  void div(const Array& other)
+  Array mul(const Array& other) const
+  {
+    Array result(this->clone());
+    result.mul_inplace(other);
+    return result;
+  }
+
+  void div_inplace(const Array& other)
   { for(std::size_t i = 0; i < Size; ++i) (*this)(i) /= other(i); }
 
-  void pow(const Array& other)
+  Array div(const Array& other) const
+  {
+    Array result(this->clone());
+    result.div_inplace(other);
+    return result;
+  }
+
+  void pow_inplace(const Array& other)
   { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = std::pow((*this)(i), other(i)); }
 
-  void pow(const float value)
+  Array pow(const Array& other) const
+  {
+    Array result(this->clone());
+    result.pow_inplace(other);
+    return result;
+  }
+
+  void pow_inplace(const float value)
   { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = std::pow((*this)(i), value); }
+
+  Array pow(const float value) const
+  {
+    Array result(this->clone());
+    result.pow_inplace(value);
+    return result;
+  }
+
+  void log_inplace()
+  { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = std::log((*this)(i)); }
+
+  Array log() const
+  {
+    Array result(this->clone());
+    result.log_inplace();
+    return result;
+  }
 
   void apply(const std::function<float(float)>& f)
   { for(std::size_t i = 0; i < Size; ++i) (*this)(i) = f((*this)(i)); }
 
-  Array unaryExpr(const std::function<float(float)>& f)
+  Array unaryExpr(const std::function<float(float)>& f) const
   {
     Array result(this->clone());
     result.apply(f);

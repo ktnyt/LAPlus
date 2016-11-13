@@ -131,6 +131,21 @@ TEST(ArrayAssignmentOperator, Add)
   ASSERT_EQ(t1.use_count(), 1);
 }
 
+TEST(ArrayAssignmentOperator, AddFloat)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({2, 3, 4, 5, 6, 7});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  t0 += 1.0;
+
+  ASSERT_EQ(t0, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+}
+
 TEST(ArrayAssignmentOperator, Sub)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});
@@ -149,6 +164,21 @@ TEST(ArrayAssignmentOperator, Sub)
   ASSERT_EQ(t1, a1);
   ASSERT_EQ(t0.use_count(), 1);
   ASSERT_EQ(t1.use_count(), 1);
+}
+
+TEST(ArrayAssignmentOperator, SubFloat)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 1, 2, 3, 4, 5});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  t0 -= 1.0;
+
+  ASSERT_EQ(t0, a1);
+  ASSERT_EQ(t0.use_count(), 1);
 }
 
 TEST(ArrayAssignmentOperator, Mul)
@@ -283,6 +313,27 @@ TEST(ArrayArithmeticOperator, Add)
   ASSERT_EQ(t2.use_count(), 1);
 }
 
+TEST(ArrayArithmeticOperator, AddFloat)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({2, 3, 4, 5, 6, 7});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+
+  t1 = t0 + 1.0;
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+}
+
 TEST(ArrayArithmeticOperator, Sub)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});
@@ -307,6 +358,27 @@ TEST(ArrayArithmeticOperator, Sub)
   ASSERT_EQ(t0.use_count(), 1);
   ASSERT_EQ(t1.use_count(), 1);
   ASSERT_EQ(t2.use_count(), 1);
+}
+
+TEST(ArrayArithmeticOperator, SubFloat)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({0, 1, 2, 3, 4, 5});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+
+  t1 = t0 - 1.0;
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
 }
 
 TEST(ArrayArithmeticOperator, Mul)
@@ -1081,6 +1153,32 @@ TEST(ArrayArithmetic, Mul)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});
   Array<3, 2> t1({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t2;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({1, 4, 9, 16, 25, 36});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a0);
+  ASSERT_EQ(t2, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+
+  t2 = t1.mul(t0);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a0);
+  ASSERT_EQ(t2, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, MulInplace)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a1({1, 4, 9, 16, 25, 36});
 
@@ -1089,7 +1187,7 @@ TEST(ArrayArithmetic, Mul)
   ASSERT_EQ(t0.use_count(), 1);
   ASSERT_EQ(t1.use_count(), 1);
 
-  t1.mul(t0);
+  t1.mul_inplace(t0);
 
   ASSERT_EQ(t0, a0);
   ASSERT_EQ(t1, a1);
@@ -1101,6 +1199,32 @@ TEST(ArrayArithmetic, Div)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});
   Array<3, 2> t1({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t2;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({1, 1, 1, 1, 1, 1});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a0);
+  ASSERT_EQ(t2, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+
+  t2 = t1.div(t0);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a0);
+  ASSERT_EQ(t2, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, DivInplace)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a1({1, 1, 1, 1, 1, 1});
 
@@ -1109,7 +1233,7 @@ TEST(ArrayArithmetic, Div)
   ASSERT_EQ(t0.use_count(), 1);
   ASSERT_EQ(t1.use_count(), 1);
 
-  t1.div(t0);
+  t1.div_inplace(t0);
 
   ASSERT_EQ(t0, a0);
   ASSERT_EQ(t1, a1);
@@ -1121,16 +1245,43 @@ TEST(ArrayArithmetic, Pow)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});
   Array<3, 2> t1({2, 2, 2, 2, 2, 2});
+  Array<3, 2> t2;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({2, 2, 2, 2, 2, 2});
+  std::array<float, 6> a2({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a3({2, 4, 8, 16, 32, 64});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t2, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+
+  t2 = t1.pow(t0);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t2, a3);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+  ASSERT_EQ(t2.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, PowInplace)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1({2, 2, 2, 2, 2, 2});
   std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a1({2, 4, 8, 16, 32, 64});
   std::array<float, 6> a2({2, 2, 2, 2, 2, 2});
 
-  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0, a0); 
   ASSERT_EQ(t1, a2);
   ASSERT_EQ(t0.use_count(), 1);
   ASSERT_EQ(t1.use_count(), 1);
 
-  t1.pow(t0);
+  t1.pow_inplace(t0);
 
   ASSERT_EQ(t0, a0);
   ASSERT_EQ(t1, a1);
@@ -1141,13 +1292,70 @@ TEST(ArrayArithmetic, Pow)
 TEST(ArrayArithmetic, PowFloat)
 {
   Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({1, 4, 9, 16, 25, 36});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+
+  t1 = t0.pow(2.0);
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, PowFloatInplace)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
   std::array<float, 6> a1({1, 4, 9, 16, 25, 36});
 
   ASSERT_EQ(t0, a0);
   ASSERT_EQ(t0.use_count(), 1);
 
-  t0.pow(2.0);
+  t0.pow_inplace(2.0);
+
+  ASSERT_EQ(t0, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, Log)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  Array<3, 2> t1;
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0, 0, 0, 0, 0});
+  std::array<float, 6> a2({0, 0.69314718, 1.09861231, 1.38629436, 1.60943794, 1.79175949});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a1);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+
+  t1 = t0.log();
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t1, a2);
+  ASSERT_EQ(t0.use_count(), 1);
+  ASSERT_EQ(t1.use_count(), 1);
+}
+
+TEST(ArrayArithmetic, LogInplace)
+{
+  Array<3, 2> t0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a0({1, 2, 3, 4, 5, 6});
+  std::array<float, 6> a1({0, 0.69314718, 1.09861231, 1.38629436, 1.60943794, 1.79175949});
+
+  ASSERT_EQ(t0, a0);
+  ASSERT_EQ(t0.use_count(), 1);
+
+  t0.log_inplace();
 
   ASSERT_EQ(t0, a1);
   ASSERT_EQ(t0.use_count(), 1);
