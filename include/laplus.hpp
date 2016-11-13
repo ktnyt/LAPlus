@@ -33,7 +33,7 @@
 #include <cmath>
 #include <cstring>
 #include <array>
-#include <ostream>
+#include <iostream>
 #include <algorithm>
 #include <functional>
 #include <memory>
@@ -194,7 +194,7 @@ class Array {
   static constexpr Transpose trans = Trans ? CblasTrans : CblasNoTrans;
 public:
   /* Constructors & Destructor */
-  Array(const float value=0.0)
+  Array(const float& value=0.0)
     : shared(std::shared_ptr<float>(new float[Rows*Cols], std::default_delete<float[]>()))
     , buffer(shared.get()), offset(0), stride(1)
   { for(std::size_t i = 0; i < Rows * Cols; ++i) *(this->buffer + i) = value; }
@@ -216,6 +216,8 @@ public:
   virtual ~Array() {}
 
   /* Assignment Operators */
+  Array& operator=(const float&)=delete; // Disable float assignment
+
   Array& operator=(const Array& other)
   {
     Array another(other);
@@ -598,11 +600,17 @@ public:
     return result;
   }
 
+  template<std::size_t Shared, bool Trans2>
+  Array<Rows, Rows> dot(const Array<Cols, Rows, Trans2>& other) const
+  {
+    Array<Rows, Rows> result;
+    result.gemm(1.0, other, *this, 0.0);
+    return result;
+  }
+
   template<std::size_t Shared, bool Trans1, bool Trans2>
   void dot_inplace(const Array<Rows, Shared, Trans1>& A, const Array<Shared, Cols, Trans2>& B)
-  {
-    this->gemm(1.0, B, A, 0.0);
-  }
+  { this->gemm(1.0, B, A, 0.0); }
 
   /* Arithmetic */
   void mul(const Array& other)

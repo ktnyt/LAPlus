@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
-option(test "Build all tests." OFF)
+option(test "Build tests" ON)
+option(benchmark "Build benchmarks" ON)
 
 set(PROJECT_NAME LAPlus)
 project(${PROJECT_NAME})
@@ -17,12 +18,14 @@ else()
   add_definitions("-std=c++0x")
 endif()
 
+# Enable including/linking from CMAKE_PREFIX_PATH
+if(DEFINED CMAKE_PREFIX_PATH)
+  include_directories(${CMAKE_PREFIX_PATH}/include)
+  link_directories(${CMAKE_PREFIX_PATH}/lib)
+endif()
+
 # Include directories for LAPlus
 include_directories(${PROJECT_SOURCE_DIR}/include)
-
-# External project locations
-include_directories(${PROJECT_BINARY_DIR}/external/include)
-link_directories(${PROJECT_BINARY_DIR}/external/lib)
 
 add_subdirectory(external)
 add_subdirectory(tests)
