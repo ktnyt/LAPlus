@@ -27,6 +27,7 @@ endif()
 # Include directories for LAPlus
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+add_subdirectory(src)
 add_subdirectory(external)
 add_subdirectory(tests)
 

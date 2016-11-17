@@ -26,34 +26,70 @@
  *
  *****************************************************************************/
 
-#include "laplus.hpp"
 #include "benchmark/benchmark.h"
+#include "cblas.h"
 
-namespace lp = laplus;
-
-static void DOT1024(benchmark::State& state)
+static void GEMM_COL(benchmark::State& state)
 {
-  lp::Array<1024, 1024> a0(1.0);
-  lp::Array<1024, 1024> a1(1.0);
-  lp::Array<1024, 1024> a2;
+  int M = state.range(0);
+  int N = state.range(1);
+  int K = state.range(2);
+
+  float* A = new float[K * M];
+  float* B = new float[N * K];
+  float* C = new float[M * N];
 
   while(state.KeepRunning()) {
-    a2.dot_inplace(a1, a0);
+    cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
+                M, N, K, 1.0, A, M, B, K, 0.0, C, M);
+  }
+
+  delete[] A;
+  delete[] B;
+  delete[] C;
+}
+
+static void GEMM_ROW(benchmark::State& state)
+{
+  int M = state.range(0);
+  int N = state.range(1);
+  int K = state.range(2);
+
+  float* A = new float[K * M];
+  float* B = new float[N * K];
+  float* C = new float[M * N];
+
+  while(state.KeepRunning()) {
+    cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
+                M, N, K, 1.0, A, M, B, K, 0.0, C, M);
+  }
+
+  delete[] A;
+  delete[] B;
+  delete[] C;
+}
+
+static void Step(benchmark::internal::Benchmark* b)
+{
+  int m = 1;
+  for(int i = 0; i < 3; ++i) {
+    m *= 8;
+
+    int n = 1;
+    for(int j = 0; j < 3; ++j) {
+      n *= 8;
+
+      int o = 1;
+      for(int k = 0; k < 3; ++k) {
+        o *= 8;
+
+        if((m <= n) &&(n <= o)) b->Args({m, n, o});
+      }
+    }
   }
 }
 
-static void GEMM1024(benchmark::State& state)
-{
-  lp::Array<1024, 1024> a0(1.0);
-  lp::Array<1024, 1024> a1(1.0);
-  lp::Array<1024, 1024> a2;
-
-  while(state.KeepRunning()) {
-    a2.gemm(1.0, a0, a1, 0.0);
-  }
-}
-
-BENCHMARK(DOT1024);
-BENCHMARK(GEMM1024);
+BENCHMARK(GEMM_COL)->Apply(Step);
+BENCHMARK(GEMM_ROW)->Apply(Step);
 
 BENCHMARK_MAIN();

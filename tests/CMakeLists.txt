@@ -1,8 +1,14 @@
 if(LAPLUS_TEST)
   include_directories(${gtest_SOURCE_DIR}/include)
   enable_testing()
-  add_executable(unit_tests unit_tests.cpp)
-  target_link_libraries(unit_tests openblas gtest gtest_main)
+  add_executable(unit_tests
+    laplus/internal/array.cpp
+    laplus/internal/shared_array.cpp
+
+    laplus/vectorf.cpp
+    laplus/matrixf.cpp
+  )
+  target_link_libraries(unit_tests laplus openblas gtest gtest_main)
   add_test(NAME laplus-test COMMAND unit_tests)
 endif()
 
