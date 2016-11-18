@@ -225,8 +225,12 @@ const float Matrixf::minCoeff(std::size_t& min_i, std::size_t& min_j) const
 }
 
 // Linear Algebra
-
-
+Matrixf Matrixf::dot(const Matrixf& other) const
+{
+  Matrixf result(this->rows(), other.cols());
+  result.gemm(1.0, *this, other, 0.0);
+  return result;
+}
 
 const bool operator==(const Matrixf& a, const Matrixf& b)
 {

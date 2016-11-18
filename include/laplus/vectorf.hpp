@@ -35,6 +35,7 @@
 #include <vector>
 #include <ostream>
 #include <functional>
+#include <memory>
 #include "cblas.h"
 
 namespace laplus {

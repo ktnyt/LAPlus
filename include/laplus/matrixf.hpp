@@ -86,7 +86,7 @@ public:
   Matrixf dot(const Matrixf&) const;
 private:
   std::pair<std::size_t, std::size_t> shape;
-  enum CBLAS_TRANSPOSE trans;
+  CBLAS_TRANSPOSE trans;
 };
 
 const bool operator==(const Matrixf&, const Matrixf&);
