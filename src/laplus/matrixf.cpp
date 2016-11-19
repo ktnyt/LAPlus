@@ -232,6 +232,11 @@ Matrixf Matrixf::dot(const Matrixf& other) const
   return result;
 }
 
+void Matrixf::dot(const Matrixf& a, const Matrixf& b)
+{
+  this->gemm(1.0, a, b, 0.0);
+}
+
 const bool operator==(const Matrixf& a, const Matrixf& b)
 {
   assert(a.rows() == b.rows());

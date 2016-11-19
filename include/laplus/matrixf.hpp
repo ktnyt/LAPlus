@@ -84,6 +84,7 @@ public:
 
   // Linear Algebra
   Matrixf dot(const Matrixf&) const;
+  void dot(const Matrixf&, const Matrixf&);
 private:
   std::pair<std::size_t, std::size_t> shape;
   CBLAS_TRANSPOSE trans;
