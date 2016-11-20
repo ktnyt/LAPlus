@@ -156,6 +156,9 @@ public:
 
   const float maxCoeff(std::size_t&) const;
   const float minCoeff(std::size_t&) const;
+
+  // Linear Algebra
+  float inner(const Vectorf&) const;
 private:
   std::size_t offset;
   std::size_t stride;

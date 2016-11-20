@@ -525,6 +525,10 @@ const float Vectorf::minCoeff(std::size_t& min_i) const
   return min_v;
 }
 
+// Linear Algebra
+float Vectorf::inner(const Vectorf& other) const
+{ return this->dot(other); }
+
 // Non-member functions
 const bool operator==(const Vectorf& a, const Vectorf& b)
 {
