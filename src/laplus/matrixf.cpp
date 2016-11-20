@@ -381,6 +381,30 @@ const Vectorf Matrixf::col(const std::size_t index) const
   return Vectorf(*this, index, shape.second, shape.first);
 }
 
+void Matrixf::set_row(const std::size_t index, const Vectorf& vector)
+{
+  assert(shape.second == vector.size());
+  if(trans == CblasTrans) {
+    Vectorf target = Vectorf(*this, index, shape.first, shape.second);
+    target.copy(vector);
+  } else {
+    Vectorf target = Vectorf(*this, index * shape.second, 1, shape.second);
+    target.copy(vector);
+  }
+}
+
+void Matrixf::set_col(const std::size_t index, const Vectorf& vector)
+{
+  assert(shape.first == vector.size());
+  if(trans == CblasTrans) {
+    Vectorf target = Vectorf(*this, index * shape.first, 1, shape.first);
+    target.copy(vector);
+  } else {
+    Vectorf target = Vectorf(*this, index, shape.second, shape.first);
+    target.copy(vector);
+  }
+}
+
 // Level 2 BLAS
 void Matrixf::ger(const float alpha, const Vectorf& x, const Vectorf& y)
 {

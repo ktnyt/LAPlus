@@ -988,6 +988,120 @@ TEST(LAPlusMatrixf, ColTrans) {
   ASSERT_EQ(v1, t3);
 }
 
+TEST(LAPlusMatrixf, SetRow) {
+  std::size_t r0 = 2;
+  std::size_t c0 = 3;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2, 3},
+                                        {2, 3, 4}};
+  std::vector<float> t1 = {1, 2, 3};
+  std::vector<float> t2 = {2, 3, 4};
+  std::vector<std::vector<float>> t3 = {{2, 3, 4},
+                                        {1, 2, 3}};
+
+  Matrixf m0(t0);
+  Vectorf v0(t1);
+  Vectorf v1(t2);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v0.size(), c0);
+  ASSERT_EQ(v0, t1);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v1.size(), c0);
+  ASSERT_EQ(v1, t2);
+
+  m0.set_row(0, v1);
+  m0.set_row(1, v0);
+
+  Vectorf v2 = m0.row(0);
+  Vectorf v3 = m0.row(1);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 3);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t3);
+
+  ASSERT_FALSE(v2.empty());
+  ASSERT_EQ(v2.use_count(), 3);
+  ASSERT_EQ(v2.size(), c0);
+  ASSERT_EQ(v2, t2);
+
+  ASSERT_FALSE(v3.empty());
+  ASSERT_EQ(v3.use_count(), 3);
+  ASSERT_EQ(v3.size(), c0);
+  ASSERT_EQ(v3, t1);
+}
+
+TEST(LAPlusMatrixf, SetCol) {
+  std::size_t r0 = 3;
+  std::size_t c0 = 2;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2},
+                                        {2, 3},
+                                        {3, 4}};
+  std::vector<float> t1 = {1, 2, 3};
+  std::vector<float> t2 = {2, 3, 4};
+  std::vector<std::vector<float>> t3 = {{2, 1},
+                                        {3, 2},
+                                        {4, 3}};
+
+  Matrixf m0(t0);
+  Vectorf v0(t1);
+  Vectorf v1(t2);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v0.size(), r0);
+  ASSERT_EQ(v0, t1);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v1.size(), r0);
+  ASSERT_EQ(v1, t2);
+
+  m0.set_col(0, v1);
+  m0.set_col(1, v0);
+
+  Vectorf v2 = m0.col(0);
+  Vectorf v3 = m0.col(1);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 3);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t3);
+
+  ASSERT_FALSE(v2.empty());
+  ASSERT_EQ(v2.use_count(), 3);
+  ASSERT_EQ(v2.size(), r0);
+  ASSERT_EQ(v2, t2);
+
+  ASSERT_FALSE(v3.empty());
+  ASSERT_EQ(v3.use_count(), 3);
+  ASSERT_EQ(v3.size(), r0);
+  ASSERT_EQ(v3, t1);
+}
+
 TEST(LAPlusMatrixf, Level2BLAS_GEMV) {
   std::size_t r0 = 2;
   std::size_t c0 = 3;
