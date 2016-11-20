@@ -207,6 +207,480 @@ TEST(LAPlusMatrixf, OperatorAssignmentMove) {
   ASSERT_EQ(m1.size(), s0);
 }
 
+TEST(LAPlusMatrixf, OperatorAssignmentAdd) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{2, 4, 6}, {8, 10, 12}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 += v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentSub) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 -= v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentMul) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{1, 4, 9}, {16, 25, 36}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 *= v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentDiv) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{1, 1, 1}, {1, 1, 1}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 /= v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentPow) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{2, 2, 2}, {2, 2, 2}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{2, 2, 2}, {2, 2, 2}});
+  std::vector<std::vector<float>> t2({{2, 4, 8}, {16, 32, 64}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 ^= v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentAddFloat) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{2, 3, 4}, {5, 6, 7}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+
+  v0 += 1.;
+
+  ASSERT_EQ(v0, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentSubFloat) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 1, 2}, {3, 4, 5}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+
+  v0 -= 1.;
+
+  ASSERT_EQ(v0, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentMulFloat) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{2, 4, 6}, {8, 10, 12}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+
+  v0 *= 2.;
+
+  ASSERT_EQ(v0, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentDivFloat) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{.5, 1, 1.5}, {2, 2.5, 3}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+
+  v0 /= 2.;
+
+  ASSERT_EQ(v0, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorAssignmentPowFloat) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{1, 4, 9}, {16, 25, 36}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+
+  v0 ^= 2.;
+
+  ASSERT_EQ(v0, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticAdd) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v2(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{2, 4, 6}, {8, 10, 12}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v2, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+
+  v2 = v1 + v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v2, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticSub) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{0, 0, 0}, {0, 0, 0}});
+  Matrixf v2(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{-1, -2, -3}, {-4, -5, -6}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v2, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+
+  v2 = v1 - v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v2, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticMul) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v2(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{1, 4, 9}, {16, 25, 36}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v2, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+
+  v2 = v1 * v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v2, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticDiv) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v2(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{1, 1, 1}, {1, 1, 1}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v2, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+
+  v2 = v1 / v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t0);
+  ASSERT_EQ(v2, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticPow) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1({{2, 2, 2}, {2, 2, 2}});
+  Matrixf v2(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{2, 2, 2}, {2, 2, 2}});
+  std::vector<std::vector<float>> t2({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> a3({{2, 4, 8}, {16, 32, 64}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v2, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+
+  v2 = v1 ^ v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v2, a3);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v2.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticAddFloatR) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{2, 3, 4}, {5, 6, 7}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = v0 + 1.;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticAddFloatL) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{2, 3, 4}, {5, 6, 7}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = 1. + v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticSubFloatR) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{0, 1, 2}, {3, 4, 5}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = v0 - 1.;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticSubFloatL) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{0, -1, -2}, {-3, -4, -5}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = 1. - v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticMulFloatR) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{2, 4, 6}, {8, 10, 12}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = v0 * 2.;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticMulFloatL) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{2, 4, 6}, {8, 10, 12}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = 2 * v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticDivFloatR) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{.5, 1, 1.5}, {2, 2.5, 3}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = v0 / 2.;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticDivFloatL) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{1 / 1., 1 / 2., 1 / 3.}, {1 / 4., 1 / 5., 1 / 6.}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = 1. / v0;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+TEST(LAPlusMatrixf, OperatorArithmeticPowFloatR) {
+  Matrixf v0({{1, 2, 3}, {4, 5, 6}});
+  Matrixf v1(2, 3);
+  std::vector<std::vector<float>> t0({{1, 2, 3}, {4, 5, 6}});
+  std::vector<std::vector<float>> t1({{0, 0, 0}, {0, 0, 0}});
+  std::vector<std::vector<float>> t2({{1, 4, 9}, {16, 25, 36}});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t1);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+
+  v1 = v0 ^ 2;
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v1, t2);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v1.use_count(), 1);
+}
+
+// HOGE
+
 TEST(LAPlusMatrixf, OperatorSubscript) {
   std::size_t r0 = 2;
   std::size_t c0 = 3;

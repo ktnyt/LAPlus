@@ -128,6 +128,178 @@ Matrixf& Matrixf::operator=(Matrixf&& other) noexcept
   return other;
 }
 
+Matrixf& Matrixf::operator+=(const Matrixf& rhs)
+{
+  this->axpy(1.0, rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator-=(const Matrixf& rhs)
+{
+  *this += -rhs;
+  return *this;
+}
+
+Matrixf& Matrixf::operator*=(const Matrixf& rhs)
+{
+  this->mul_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator/=(const Matrixf& rhs)
+{
+  this->div_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator^=(const Matrixf& rhs)
+{
+  this->pow_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator+=(const float rhs)
+{
+  this->add_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator-=(const float rhs)
+{
+  this->sub_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator*=(const float rhs)
+{
+  this->mul_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator/=(const float rhs)
+{
+  this->div_inplace(rhs);
+  return *this;
+}
+
+Matrixf& Matrixf::operator^=(const float rhs)
+{
+  this->pow_inplace(rhs);
+  return *this;
+}
+
+// Arithmetic Operators
+Matrixf Matrixf::operator+() const
+{ return this->clone(); }
+
+Matrixf Matrixf::operator-() const
+{
+  Matrixf result(this->clone());
+  result.scal(-1.0);
+  return result;
+}
+
+Matrixf Matrixf::operator+(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result += other;
+  return result;
+}
+
+Matrixf Matrixf::operator-(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result -= other;
+  return result;
+}
+
+Matrixf Matrixf::operator*(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result *= other;
+  return result;
+}
+
+Matrixf Matrixf::operator/(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result /= other;
+  return result;
+}
+
+Matrixf Matrixf::operator^(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result ^= other;
+  return result;
+}
+
+Matrixf Matrixf::operator+(const float value) const
+{
+  Matrixf result(this->clone());
+  result += value;
+  return result;
+}
+
+Matrixf Matrixf::operator-(const float value) const
+{
+  Matrixf result(this->clone());
+  result -= value;
+  return result;
+}
+
+Matrixf Matrixf::operator*(const float value) const
+{
+  Matrixf result(this->clone());
+  result *= value;
+  return result;
+}
+
+Matrixf Matrixf::operator/(const float value) const
+{
+  Matrixf result(this->clone());
+  result /= value;
+  return result;
+}
+
+Matrixf Matrixf::operator^(const float value) const
+{
+  Matrixf result(this->clone());
+  result ^= value;
+  return result;
+}
+
+Matrixf operator+(const float& value, const Matrixf& vector)
+{ return vector + value; }
+
+Matrixf operator-(const float& value, const Matrixf& vector)
+{ return -vector + value; }
+
+Matrixf operator*(const float& value, const Matrixf& vector)
+{ return vector * value; }
+
+Matrixf operator/(const float& value, const Matrixf& vector)
+{
+  Matrixf result(vector.clone());
+  for(std::size_t i = 0; i < result.rows(); ++i) {
+    for(std::size_t j = 0; j < result.cols(); ++j) {
+      result(i, j) = value / result(i, j);
+    }
+  }
+  return result;
+}
+
+Matrixf operator^(const float& value, const Matrixf& vector)
+{
+  Matrixf result(vector.clone());
+  for(std::size_t i = 0; i < result.rows(); ++i) {
+    for(std::size_t j = 0; j < result.cols(); ++j) {
+      result(i, j) = std::pow(value, result(i, j));
+    }
+  }
+  return result;
+}
+
 // Miscellaneous Operators
 const Vectorf Matrixf::operator[](const std::size_t index) const
 {

@@ -62,6 +62,40 @@ public:
   Matrixf& operator=(const Matrixf&);
   Matrixf& operator=(Matrixf&&) noexcept;
 
+  Matrixf& operator+=(const Matrixf&);
+  Matrixf& operator-=(const Matrixf&);
+  Matrixf& operator*=(const Matrixf&);
+  Matrixf& operator/=(const Matrixf&);
+  Matrixf& operator^=(const Matrixf&);
+
+  Matrixf& operator+=(const float);
+  Matrixf& operator-=(const float);
+  Matrixf& operator*=(const float);
+  Matrixf& operator/=(const float);
+  Matrixf& operator^=(const float);
+
+  // Arithmetic Operators
+  Matrixf operator+() const;
+  Matrixf operator-() const;
+
+  Matrixf operator+(const Matrixf&) const;
+  Matrixf operator-(const Matrixf&) const;
+  Matrixf operator*(const Matrixf&) const;
+  Matrixf operator/(const Matrixf&) const;
+  Matrixf operator^(const Matrixf&) const;
+
+  Matrixf operator+(const float) const;
+  Matrixf operator-(const float) const;
+  Matrixf operator*(const float) const;
+  Matrixf operator/(const float) const;
+  Matrixf operator^(const float) const;
+
+  friend Matrixf operator+(const float&, const Matrixf&);
+  friend Matrixf operator-(const float&, const Matrixf&);
+  friend Matrixf operator*(const float&, const Matrixf&);
+  friend Matrixf operator/(const float&, const Matrixf&);
+  friend Matrixf operator^(const float&, const Matrixf&);
+
   // Miscellaneous Operators
   const Vectorf operator[](const std::size_t) const;
   float& operator()(const std::size_t, const std::size_t) const;
