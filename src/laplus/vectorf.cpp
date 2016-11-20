@@ -36,10 +36,10 @@ namespace laplus {
 
 // Generators
 Vectorf Vectorf::Uniform(const std::size_t size)
-{ return Uniform(0.0, 1.0); }
+{ return Uniform(size, 0.0, 1.0); }
 
 Vectorf Vectorf::Uniform(const std::size_t size, const float max)
-{ return Uniform(0.0, max); }
+{ return Uniform(size, 0.0, max); }
 
 Vectorf Vectorf::Uniform(const std::size_t size,
                          const float min, const float max)
