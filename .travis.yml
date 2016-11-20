@@ -49,5 +49,5 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER -DLAPLUS_BENCH=OFF .. && make
   - ./tests/unit_tests
