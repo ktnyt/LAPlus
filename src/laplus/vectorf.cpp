@@ -38,7 +38,8 @@ namespace laplus {
 Vectorf Vectorf::Uniform(const std::size_t size, const float max)
 { return Uniform(0, max); }
 
-Vectorf Vectorf::Uniform(const std::size_t size, const float min, const float max)
+Vectorf Vectorf::Uniform(const std::size_t size,
+                         const float min, const float max)
 {
   Vectorf result(size);
   std::mt19937 generator;

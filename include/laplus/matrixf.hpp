@@ -42,6 +42,11 @@ namespace laplus {
 class Matrixf : public Vectorf {
   friend class Vectorf;
 public:
+  // Generators
+  static Matrixf Uniform(const std::size_t, const std::size_t, const float);
+  static Matrixf Uniform(const std::size_t, const std::size_t,
+                         const float, const float);
+
   // Constructors and Destructor
   Matrixf()=delete;
   Matrixf(const std::size_t, const std::size_t);

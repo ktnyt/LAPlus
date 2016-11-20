@@ -29,6 +29,8 @@
 #include "laplus/matrixf.hpp"
 #include "laplus/typedef.hpp"
 
+#include <random>
+
 namespace laplus {
 
 namespace {
@@ -58,6 +60,26 @@ shape_t flip(const shape_t& shape)
 { return shape_t(shape.second, shape.first); }
 
 }  // unnamed namespace
+
+// Generators
+Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
+                         const float max)
+{ return Uniform(rows, cols, 0, max); }
+
+Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
+                         const float max, const float min)
+{
+  Matrixf result(rows, cols);
+  std::mt19937 generator;
+  std::uniform_real_distribution<float> distribution(min, max);
+  for(std::size_t i = 0; i < rows; ++i) {
+    for(std::size_t j = 0; j < cols; ++j) {
+      result(i, j) = distribution(generator);
+    }
+  }
+  return result;
+
+}
 
 // Constructors and Destructor
 Matrixf::Matrixf(const std::size_t rows, const std::size_t cols)

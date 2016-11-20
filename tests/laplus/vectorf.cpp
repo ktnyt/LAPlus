@@ -1593,21 +1593,10 @@ TEST(LAPlusVectorf, GeneratorUniform) {
 
   ASSERT_EQ(v0.use_count(), 1);
 
-  float sum = 0.0;
-
   for(std::size_t i = 0; i < v0.size(); ++i) {
     ASSERT_GE(v0[i], 0.0);
     ASSERT_LT(v0[i], 1.0);
-    sum += v0[i];
   }
-
-  float mean = sum / v0.size();
-
-  EXPECT_GT(mean, 0.499);
-  EXPECT_LT(mean, 0.501);
-
-  ASSERT_GT(mean, 0.49);
-  ASSERT_LT(mean, 0.51);
 }
 
 }  // namespace laplus

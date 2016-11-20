@@ -798,6 +798,19 @@ TEST(LAPlusMatrixf, Dot) {
   ASSERT_EQ(m5, m2.transpose());
 }
 
+TEST(LAPlusMatrixf, GeneratorUniform) {
+  Matrixf v0 = Matrixf::Uniform(10000, 0.0, 1.0);
+
+  ASSERT_EQ(v0.use_count(), 1);
+
+  for(std::size_t i = 0; i < v0.rows(); ++i) {
+    for(std::size_t j = 0; i < v0.cols(); ++j) {
+      ASSERT_GE(v0(i, j), 0.0);
+      ASSERT_LT(v0(i, j), 1.0);
+    }
+  }
+}
+
 }  // namespace laplus
 
 
