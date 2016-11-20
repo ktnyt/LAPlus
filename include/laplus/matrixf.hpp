@@ -111,6 +111,8 @@ public:
   const std::size_t rows() const;
   const std::size_t cols() const;
   const std::size_t ldim() const;
+  const Vectorf row(const std::size_t) const;
+  const Vectorf col(const std::size_t) const;
 
   // Level 2 BLAS
   void ger(const float, const Vectorf&, const Vectorf&);

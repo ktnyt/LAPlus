@@ -367,6 +367,20 @@ const std::size_t Matrixf::cols() const
 const std::size_t Matrixf::ldim() const
 { return (trans == CblasTrans) ? rows() : cols(); }
 
+const Vectorf Matrixf::row(const std::size_t index) const
+{
+  if(trans == CblasTrans)
+    return Vectorf(*this, index, shape.first, shape.second);
+  return Vectorf(*this, index * shape.second, 1, shape.second);
+}
+
+const Vectorf Matrixf::col(const std::size_t index) const
+{
+  if(trans == CblasTrans)
+    return Vectorf(*this, index * shape.first, 1, shape.first);
+  return Vectorf(*this, index, shape.second, shape.first);
+}
+
 // Level 2 BLAS
 void Matrixf::ger(const float alpha, const Vectorf& x, const Vectorf& y)
 {

@@ -679,8 +679,6 @@ TEST(LAPlusMatrixf, OperatorArithmeticPowFloatR) {
   ASSERT_EQ(v1.use_count(), 1);
 }
 
-// HOGE
-
 TEST(LAPlusMatrixf, OperatorSubscript) {
   std::size_t r0 = 2;
   std::size_t c0 = 3;
@@ -853,6 +851,141 @@ TEST(LAPlusMatrixf, Reshape) {
   ASSERT_EQ(m1.cols(), r0);
   ASSERT_EQ(m1.size(), s0);
   ASSERT_EQ(m1, t1);
+}
+
+TEST(LAPlusMatrixf, Row) {
+  std::size_t r0 = 2;
+  std::size_t c0 = 3;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2, 3},
+                                        {2, 3, 4}};
+  std::vector<float> t1 = {1, 2, 3};
+  std::vector<float> t2 = {2, 3, 4};
+
+  Matrixf m0(t0);
+
+  Vectorf v0 = m0.row(0);
+  Vectorf v1 = m0.row(1);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 3);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 3);
+  ASSERT_EQ(v0.size(), c0);
+  ASSERT_EQ(v0, t1);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 3);
+  ASSERT_EQ(v1.size(), c0);
+  ASSERT_EQ(v1, t2);
+}
+
+TEST(LAPlusMatrixf, RowTrans) {
+  std::size_t r0 = 2;
+  std::size_t c0 = 3;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2, 3},
+                                        {2, 3, 4}};
+  std::vector<std::vector<float>> t1 = {{1, 2},
+                                        {2, 3},
+                                        {3, 4}};
+  std::vector<float> t2 = {1, 2, 3};
+  std::vector<float> t3 = {2, 3, 4};
+
+  Matrixf m0 = Matrixf(t1).transpose();
+
+  Vectorf v0 = m0.row(0);
+  Vectorf v1 = m0.row(1);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 3);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 3);
+  ASSERT_EQ(v0.size(), c0);
+  ASSERT_EQ(v0, t2);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 3);
+  ASSERT_EQ(v1.size(), c0);
+  ASSERT_EQ(v1, t3);
+}
+
+TEST(LAPlusMatrixf, Col) {
+  std::size_t r0 = 3;
+  std::size_t c0 = 2;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2},
+                                        {2, 3},
+                                        {3, 4}};
+  std::vector<float> t1 = {1, 2, 3};
+  std::vector<float> t2 = {2, 3, 4};
+
+  Matrixf m0(t0);
+
+  Vectorf v0 = m0.col(0);
+  Vectorf v1 = m0.col(1);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 3);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 3);
+  ASSERT_EQ(v0.size(), r0);
+  ASSERT_EQ(v0, t1);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 3);
+  ASSERT_EQ(v1.size(), r0);
+  ASSERT_EQ(v1, t2);
+}
+
+TEST(LAPlusMatrixf, ColTrans) {
+  std::size_t r0 = 3;
+  std::size_t c0 = 2;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2},
+                                        {2, 3},
+                                        {3, 4}};
+  std::vector<std::vector<float>> t1 = {{1, 2, 3},
+                                        {2, 3, 4}};
+  std::vector<float> t2 = {1, 2, 3};
+  std::vector<float> t3 = {2, 3, 4};
+
+  Matrixf m0 = Matrixf(t1).transpose();
+
+  Vectorf v0 = m0.col(0);
+  Vectorf v1 = m0.col(1);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 3);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 3);
+  ASSERT_EQ(v0.size(), r0);
+  ASSERT_EQ(v0, t2);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 3);
+  ASSERT_EQ(v1.size(), r0);
+  ASSERT_EQ(v1, t3);
 }
 
 TEST(LAPlusMatrixf, Level2BLAS_GEMV) {
