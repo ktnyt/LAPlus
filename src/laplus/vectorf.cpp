@@ -30,7 +30,24 @@
 #include "laplus/matrixf.hpp"
 #include "laplus/typedef.hpp"
 
+#include <random>
+
 namespace laplus {
+
+// Generators
+Vectorf Vectorf::Uniform(const std::size_t size, const float max)
+{ return Uniform(0, max); }
+
+Vectorf Vectorf::Uniform(const std::size_t size, const float min, const float max)
+{
+  Vectorf result(size);
+  std::mt19937 generator;
+  std::uniform_real_distribution<float> distribution(min, max);
+  for(std::size_t i = 0; i < size; ++i) {
+    result[i] = distribution(generator);
+  }
+  return result;
+}
 
 // Constructors and Destructor
 Vectorf::Vectorf(const std::size_t size)
