@@ -151,6 +151,8 @@ public:
   Vectorf apply(const std::function<float(float)>&);
 
   // Extensions
+  const float sum() const;
+
   const float maxCoeff() const;
   const float minCoeff() const;
 

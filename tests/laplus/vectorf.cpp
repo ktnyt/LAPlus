@@ -1528,6 +1528,20 @@ TEST(LAPlusVectorf, Apply) {
   ASSERT_EQ(v1.use_count(), 1);
 }
 
+TEST(LAPlusVectorf, sum) {
+  Vectorf v0({1, 2, 3, 2, 1});
+  std::vector<float> t0({1, 2, 3, 2, 1});
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+
+  float f0 = v0.sum();
+
+  ASSERT_EQ(v0, t0);
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_FLOAT_EQ(f0, 9);
+}
+
 TEST(LAPlusVectorf, maxCoeff) {
   Vectorf v0({1, 2, 3, 2, 1});
   std::vector<float> t0({1, 2, 3, 2, 1});
@@ -1586,6 +1600,33 @@ TEST(LAPlusVectorf, minCoeffIndex) {
   ASSERT_EQ(v0.use_count(), 1);
   ASSERT_EQ(s0, 2);
   ASSERT_FLOAT_EQ(f0, -3);
+}
+
+TEST(LAPlusVectorf, Inner) {
+  std::vector<float> t0 = {1, 2, 3};
+
+  Vectorf v0(t0);
+  Vectorf v1(t0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v0, t0);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v1, t0);
+
+  float f0 = v1.inner(v0);
+
+  ASSERT_FALSE(v0.empty());
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v0, t0);
+
+  ASSERT_FALSE(v1.empty());
+  ASSERT_EQ(v1.use_count(), 1);
+  ASSERT_EQ(v1, t0);
+
+  ASSERT_FLOAT_EQ(f0, 14);
 }
 
 TEST(LAPlusVectorf, GeneratorUniform) {

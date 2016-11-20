@@ -477,6 +477,15 @@ Vectorf Vectorf::apply(const std::function<float(float)>& f)
 }
 
 // Extensions
+const float Vectorf::sum() const
+{
+  float sum = 0.0;
+  for(std::size_t i = 0; i < length; ++i) {
+    sum += (*this)[i];
+  }
+  return sum;
+}
+
 const float Vectorf::maxCoeff() const
 {
   float max_v = (*this)[0];
