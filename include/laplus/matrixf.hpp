@@ -120,6 +120,21 @@ public:
   // Level 3 BLAS
   void gemm(const float, const Matrixf&, const Matrixf&, const float);
 
+  // Arithmetic Functions
+  Matrixf mul(const Matrixf&) const;
+  Matrixf div(const Matrixf&) const;
+  Matrixf pow(const Matrixf&) const;
+
+  Matrixf add(const float) const;
+  Matrixf sub(const float) const;
+  Matrixf mul(const float) const;
+  Matrixf div(const float) const;
+  Matrixf pow(const float) const;
+
+  Matrixf log() const;
+
+  Matrixf apply(const std::function<float(float)>&);
+
   // Extensions
   const float maxCoeff(std::size_t&, std::size_t&) const;
   const float minCoeff(std::size_t&, std::size_t&) const;

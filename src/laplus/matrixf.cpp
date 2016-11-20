@@ -404,6 +404,77 @@ void Matrixf::gemm(const float alpha, const Matrixf& A,
               beta, this->get(), this->ldim());
 }
 
+// Arithmetic Functions
+Matrixf Matrixf::mul(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result.mul_inplace(other);
+  return result;
+}
+
+Matrixf Matrixf::div(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result.div_inplace(other);
+  return result;
+}
+
+Matrixf Matrixf::pow(const Matrixf& other) const
+{
+  Matrixf result(this->clone());
+  result.pow_inplace(other);
+  return result;
+}
+
+Matrixf Matrixf::add(const float value) const
+{
+  Matrixf result(this->clone());
+  result.add_inplace(value);
+  return result;
+}
+
+Matrixf Matrixf::sub(const float value) const
+{
+  Matrixf result(this->clone());
+  result.sub_inplace(value);
+  return result;
+}
+
+Matrixf Matrixf::mul(const float value) const
+{
+  Matrixf result(this->clone());
+  result.mul_inplace(value);
+  return result;
+}
+
+Matrixf Matrixf::div(const float value) const
+{
+  Matrixf result(this->clone());
+  result.div_inplace(value);
+  return result;
+}
+
+Matrixf Matrixf::pow(const float value) const
+{
+  Matrixf result(this->clone());
+  result.pow_inplace(value);
+  return result;
+}
+
+Matrixf Matrixf::log() const
+{
+  Matrixf result(this->clone());
+  result.log_inplace();
+  return result;
+}
+
+Matrixf Matrixf::apply(const std::function<float(float)>& f)
+{
+  Matrixf result(this->clone());
+  result.apply_inplace(f);
+  return result;
+}
+
 // Extensions
 const float Matrixf::maxCoeff(std::size_t& max_i, std::size_t& max_j) const
 {

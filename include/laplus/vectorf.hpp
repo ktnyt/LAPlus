@@ -135,6 +135,8 @@ public:
 
   void log_inplace();
 
+  void apply_inplace(const std::function<float(float)>&);
+
   Vectorf mul(const Vectorf&) const;
   Vectorf div(const Vectorf&) const;
   Vectorf pow(const Vectorf&) const;
@@ -147,7 +149,6 @@ public:
 
   Vectorf log() const;
 
-  void apply_inplace(const std::function<float(float)>&);
   Vectorf apply(const std::function<float(float)>&);
 
   // Extensions

@@ -403,6 +403,9 @@ void Vectorf::log_inplace()
 { for(std::size_t i = 0; i < this->length; ++i)
     (*this)[i] = std::log((*this)[i]); }
 
+void Vectorf::apply_inplace(const std::function<float(float)>& f)
+{ for(std::size_t i = 0; i < this->length; ++i) (*this)[i] = f((*this)[i]); }
+
 Vectorf Vectorf::mul(const Vectorf& other) const
 {
   Vectorf result(this->clone());
@@ -465,9 +468,6 @@ Vectorf Vectorf::log() const
   result.log_inplace();
   return result;
 }
-
-void Vectorf::apply_inplace(const std::function<float(float)>& f)
-{ for(std::size_t i = 0; i < this->length; ++i) (*this)[i] = f((*this)[i]); }
 
 Vectorf Vectorf::apply(const std::function<float(float)>& f)
 {
