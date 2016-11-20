@@ -46,6 +46,7 @@ class Vectorf : public internal::SharedArray<float> {
   friend class Matrixf;
 public:
   // Generators
+  static Vectorf Uniform(const std::size_t);
   static Vectorf Uniform(const std::size_t, const float);
   static Vectorf Uniform(const std::size_t, const float, const float);
 

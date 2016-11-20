@@ -43,6 +43,7 @@ class Matrixf : public Vectorf {
   friend class Vectorf;
 public:
   // Generators
+  static Matrixf Uniform(const std::size_t, const std::size_t);
   static Matrixf Uniform(const std::size_t, const std::size_t, const float);
   static Matrixf Uniform(const std::size_t, const std::size_t,
                          const float, const float);

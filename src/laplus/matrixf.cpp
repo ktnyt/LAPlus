@@ -62,9 +62,12 @@ shape_t flip(const shape_t& shape)
 }  // unnamed namespace
 
 // Generators
+Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols)
+{ return Uniform(0.0, 1.0); }
+
 Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
                          const float max)
-{ return Uniform(rows, cols, 0, max); }
+{ return Uniform(rows, cols, 0.0, max); }
 
 Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
                          const float max, const float min)
