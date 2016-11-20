@@ -136,6 +136,9 @@ public:
   Matrixf apply(const std::function<float(float)>&);
 
   // Extensions
+  const float maxCoeff() const;
+  const float minCoeff() const;
+
   const float maxCoeff(std::size_t&, std::size_t&) const;
   const float minCoeff(std::size_t&, std::size_t&) const;
 

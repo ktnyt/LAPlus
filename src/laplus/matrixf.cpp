@@ -476,6 +476,12 @@ Matrixf Matrixf::apply(const std::function<float(float)>& f)
 }
 
 // Extensions
+const float Matrixf::maxCoeff() const
+{ return Vectorf::maxCoeff(); }
+
+const float Matrixf::minCoeff() const
+{ return Vectorf::minCoeff(); }
+
 const float Matrixf::maxCoeff(std::size_t& max_i, std::size_t& max_j) const
 {
   float max_v = (*this)(0, 0);

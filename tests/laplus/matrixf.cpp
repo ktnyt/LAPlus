@@ -1235,7 +1235,38 @@ TEST(LAPlusMatrixf, Level3BLAS_GEMM) {
   ASSERT_EQ(m5, m2.transpose());
 }
 
-TEST(LAPlusMatrixf, maxCoeff) {
+TEST(LAPlusMatrixf, MaxCoeff) {
+  std::size_t r0 = 5;
+  std::size_t c0 = 5;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{1, 2, 3, 2, 1},
+                                        {2, 3, 4, 3, 2},
+                                        {3, 4, 5, 4, 3},
+                                        {2, 3, 4, 3, 2},
+                                        {1, 2, 3, 2, 1}};
+
+  Matrixf m0(t0);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  float f0 = m0.maxCoeff();
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FLOAT_EQ(f0, 5);
+}
+
+TEST(LAPlusMatrixf, MaxCoeffIndex) {
   std::size_t r0 = 5;
   std::size_t c0 = 5;
   std::size_t s0 = r0 * c0;
@@ -1267,6 +1298,73 @@ TEST(LAPlusMatrixf, maxCoeff) {
   ASSERT_EQ(m0, t0);
 
   ASSERT_FLOAT_EQ(f0, 5);
+  ASSERT_EQ(i0, 2);
+  ASSERT_EQ(j0, 2);
+}
+
+TEST(LAPlusMatrixf, MinCoeff) {
+  std::size_t r0 = 5;
+  std::size_t c0 = 5;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{-1, -2, -3, -2, -1},
+                                        {-2, -3, -4, -3, -2},
+                                        {-3, -4, -5, -4, -3},
+                                        {-2, -3, -4, -3, -2},
+                                        {-1, -2, -3, -2, -1}};
+
+  Matrixf m0(t0);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  float f0 = m0.minCoeff();
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FLOAT_EQ(f0, -5);
+}
+
+TEST(LAPlusMatrixf, MinCoeffIndex) {
+  std::size_t r0 = 5;
+  std::size_t c0 = 5;
+  std::size_t s0 = r0 * c0;
+  std::vector<std::vector<float>> t0 = {{-1, -2, -3, -2, -1},
+                                        {-2, -3, -4, -3, -2},
+                                        {-3, -4, -5, -4, -3},
+                                        {-2, -3, -4, -3, -2},
+                                        {-1, -2, -3, -2, -1}};
+
+  Matrixf m0(t0);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  std::size_t i0;
+  std::size_t j0;
+
+  float f0 = m0.minCoeff(i0, j0);
+
+  ASSERT_FALSE(m0.empty());
+  ASSERT_EQ(m0.use_count(), 1);
+  ASSERT_EQ(m0.rows(), r0);
+  ASSERT_EQ(m0.cols(), c0);
+  ASSERT_EQ(m0.size(), s0);
+  ASSERT_EQ(m0, t0);
+
+  ASSERT_FLOAT_EQ(f0, -5);
   ASSERT_EQ(i0, 2);
   ASSERT_EQ(j0, 2);
 }
