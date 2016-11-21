@@ -7,3 +7,6 @@
 [submodule "external/benchmark"]
 	path = external/benchmark
 	url = https://github.com/google/benchmark
+[submodule "examples/mnist"]
+	path = examples/mnist
+	url = https://github.com/wichtounet/mnist

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 option(LAPLUS_TEST "Build tests" ON)
 option(LAPLUS_BENCH "Build benchmarks" ON)
+option(LAPLUS_EXAMPLE "Build examples" ON)
 
 set(PROJECT_NAME LAPlus)
 project(${PROJECT_NAME})
@@ -30,5 +31,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(src)
 add_subdirectory(external)
 add_subdirectory(tests)
+add_subdirectory(examples)
 
 install(FILES include/laplus.hpp DESTINATION include)
