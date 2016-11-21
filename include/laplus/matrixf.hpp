@@ -48,6 +48,10 @@ public:
   static Matrixf Uniform(const std::size_t, const std::size_t,
                          const float, const float);
 
+  static Matrixf Normal(const std::size_t, const std::size_t);
+  static Matrixf Normal(const std::size_t, const std::size_t,
+                        const float, const float);
+
   // Constructors and Destructor
   Matrixf()=delete;
   Matrixf(const std::size_t, const std::size_t);

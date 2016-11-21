@@ -84,6 +84,24 @@ Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
 
 }
 
+Matrixf Matrixf::Normal(const std::size_t rows, const std::size_t cols)
+{ return Normal(rows, cols, 0.0, 1.0); }
+
+Matrixf Matrixf::Normal(const std::size_t rows, const std::size_t cols,
+                        const float mean, const float stddev)
+{
+  Matrixf result(rows, cols);
+  std::mt19937 generator;
+  std::normal_distribution<float> distribution(mean, stddev);
+  for(std::size_t i = 0; i < rows; ++i) {
+    for(std::size_t j = 0; j < cols; ++j) {
+      result(i, j) = distribution(generator);
+    }
+  }
+  return result;
+}
+
+
 // Constructors and Destructor
 Matrixf::Matrixf(const std::size_t rows, const std::size_t cols)
   : Vectorf(rows * cols), shape(shape_t(rows, cols)), trans(CblasNoTrans)

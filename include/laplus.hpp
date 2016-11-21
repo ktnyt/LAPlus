@@ -29,6 +29,7 @@
 #ifndef __LAPLUS__
 #define __LAPLUS__
 
+#include "laplus/math.hpp"
 #include "laplus/vectorf.hpp"
 #include "laplus/matrixf.hpp"
 

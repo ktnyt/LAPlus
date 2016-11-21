@@ -53,6 +53,21 @@ Vectorf Vectorf::Uniform(const std::size_t size,
   return result;
 }
 
+Vectorf Vectorf::Normal(const std::size_t size)
+{ return Normal(size, 0.0, 1.0); }
+
+Vectorf Vectorf::Normal(const std::size_t size,
+                        const float mean, const float stddev)
+{
+  Vectorf result(size);
+  std::mt19937 generator;
+  std::normal_distribution<float> distribution(mean, stddev);
+  for(std::size_t i = 0; i < size; ++i) {
+    result[i] = distribution(generator);
+  }
+  return result;
+}
+
 // Constructors and Destructor
 Vectorf::Vectorf(const std::size_t size)
   : internal::SharedArray<float>(size)

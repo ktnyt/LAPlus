@@ -46,9 +46,9 @@ float dtanh(const float y)
 { return 1 - (y * y); }
 
 float relu(const float x)
-{ return std::max(0.0, x); }
+{ return std::max(0.0f, x); }
 
-float relu(const float y)
+float drelu(const float y)
 { return y > 0.0 ? 1.0 : 0.0; }
 
 }  // namespace laplus

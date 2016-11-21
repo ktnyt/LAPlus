@@ -50,6 +50,9 @@ public:
   static Vectorf Uniform(const std::size_t, const float);
   static Vectorf Uniform(const std::size_t, const float, const float);
 
+  static Vectorf Normal(const std::size_t);
+  static Vectorf Normal(const std::size_t, const float, const float);
+
   // Constructors and Destructor
   Vectorf()=delete;
   Vectorf(const std::size_t);
