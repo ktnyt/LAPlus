@@ -29,6 +29,12 @@
 namespace laplus {
 namespace internal {
 
+namespace {
+template<typename T>
+std::size_t align(const std::size_t size)
+{ return size + ((sizeof(T) * size) % 32); }
+}  // unnamed namespace
+
 template<typename T>
 Array<T>::Array() : buffer(nullptr), length(0) {}
 
@@ -72,7 +78,7 @@ Array<T>& Array<T>::operator=(Array<T>&& other) noexcept
 template<typename T>
 T& Array<T>::operator[](std::size_t index) const
 {
-  assert(index < this->length);
+  assert(index < align(this->length));
   return *(this->buffer + index);
 }
 

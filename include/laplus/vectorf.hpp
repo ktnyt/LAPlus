@@ -37,7 +37,6 @@
 #include <functional>
 #include <memory>
 #include "cblas.h"
-#include <iostream>
 
 namespace laplus {
 
@@ -112,6 +111,7 @@ public:
 
   // Accessors
   const std::size_t size() const;
+  const std::size_t aligned_size() const;
 
   // Level 1 BLAS
   void swap(Vectorf&);

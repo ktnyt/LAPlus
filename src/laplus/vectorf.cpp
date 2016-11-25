@@ -326,6 +326,9 @@ Vectorf Vectorf::clone() const
 const std::size_t Vectorf::size() const
 { return length; }
 
+const std::size_t Vectorf::aligned_size() const
+{ return internal::align<float>(length); }
+
 // Level 1 BLAS
 void Vectorf::swap(Vectorf& other)
 { cblas_sswap(this->length, other.get() + other.offset, other.stride,
@@ -379,7 +382,8 @@ void Vectorf::gemv(const float alpha, const Matrixf& A,
 void Vectorf::mul_inplace(const Vectorf& other)
 {
   assert(this->length == other.length);
-  if(this->length == static_cast<internal::SharedArray<float>*>(this)->size()) {
+  if(this->length == this->aligned_size()
+  && other.length == other.aligned_size()) {
     contiguous_mul_inplace(other);
   } else {
     for(std::size_t i = 0; i < this->length; ++i) {
@@ -391,8 +395,8 @@ void Vectorf::mul_inplace(const Vectorf& other)
 void Vectorf::contiguous_mul_inplace(const Vectorf& other)
 {
   __m256* const x = (__m256*)(this->get());
-  __m256* const y = (__m256*)(other.get());
-  for(std::size_t i = 0; i < this->length / (sizeof(float) * 8); ++i) {
+  const __m256* const y = (__m256*)(other.get());
+  for(std::size_t i = 0; i < this->aligned_size() / (32 / sizeof(float)); ++i) {
     x[i] = _mm256_mul_ps(x[i], y[i]);
   }
 }

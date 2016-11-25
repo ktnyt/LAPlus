@@ -35,10 +35,6 @@ template<typename T>
 using deleter = std::default_delete<T>;
 
 template<typename T>
-std::size_t align(const std::size_t size)
-{ return size + ((sizeof(T) * size) % 32); }
-
-template<typename T>
 std::shared_ptr<T> make_shared(const std::size_t size)
 { return std::shared_ptr<T>(new T[align<T>(size)], deleter<T[]>()); }
 
