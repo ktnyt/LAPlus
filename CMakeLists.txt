@@ -10,13 +10,20 @@ set(LAPLUS_VERSION_MAJOR 1)
 set(LAPLUS_VERSION_MINOR 0)
 set(LAPLUS_VERSION_PATCH 0)
 
-# Enable C++11
 include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag("-std=c++11" STD_CXX11)
-if(STD_CXX11)
+
+# Enable C++11
+check_cxx_compiler_flag("-std=c++11" HAVE_STD_CXX11)
+if(HAVE_STD_CXX11)
   add_definitions("-std=c++11")
 else()
   add_definitions("-std=c++0x")
+endif()
+
+# Enable AVX
+check_cxx_compiler_flag("-mavx" HAVE_AVX)
+if(HAVE_AVX)
+  add_definitions("-mavx")
 endif()
 
 # Enable including/linking from CMAKE_PREFIX_PATH

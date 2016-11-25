@@ -35,8 +35,12 @@ template<typename T>
 using deleter = std::default_delete<T>;
 
 template<typename T>
+std::size_t align(const std::size_t size)
+{ return size + ((sizeof(T) * size) % 32); }
+
+template<typename T>
 std::shared_ptr<T> make_shared(const std::size_t size)
-{ return std::shared_ptr<T>(new T[size], deleter<T[]>()); }
+{ return std::shared_ptr<T>(new T[align<T>(size)], deleter<T[]>()); }
 
 } // unnamed namespace
 
@@ -45,7 +49,7 @@ SharedArray<T>::SharedArray(const std::size_t size)
   : shared(make_shared<T>(size)), Array<T>()
 {
   Array<T>::set(shared.get(), size);
-  for(std::size_t i = 0; i < size; ++i) {
+  for(std::size_t i = 0; i < align<T>(size); ++i) {
     (*this)[i] = T();
   }
 }

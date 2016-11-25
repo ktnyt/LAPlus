@@ -31,6 +31,19 @@
 
 namespace lp = laplus;
 
+static void cwise(benchmark::State& state)
+{
+  int M = state.range(0);
+  int N = state.range(1);
+
+  lp::Matrixf A(M, N);
+  lp::Matrixf B(M, N);
+
+  while(state.KeepRunning()) {
+    lp::Matrixf C = A * B;
+  }
+}
+
 static void dot(benchmark::State& state)
 {
   int M = state.range(0);
@@ -45,7 +58,22 @@ static void dot(benchmark::State& state)
   }
 }
 
-static void Step(benchmark::internal::Benchmark* b)
+static void Step2(benchmark::internal::Benchmark* b)
+{
+  int m = 1;
+  for(int i = 0; i < 3; ++i) {
+    m *= 8;
+
+    int n = 1;
+    for(int j = 0; j < 3; ++j) {
+      n *= 8;
+
+      if(m <= n) b->Args({m, n});
+    }
+  }
+}
+
+static void Step3(benchmark::internal::Benchmark* b)
 {
   int m = 1;
   for(int i = 0; i < 3; ++i) {
@@ -65,6 +93,7 @@ static void Step(benchmark::internal::Benchmark* b)
   }
 }
 
-BENCHMARK(dot)->Apply(Step);
+BENCHMARK(cwise)->Apply(Step2);
+BENCHMARK(dot)->Apply(Step3);
 
 BENCHMARK_MAIN();

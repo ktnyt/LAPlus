@@ -32,6 +32,8 @@
 
 #include <random>
 
+#include <immintrin.h>
+
 namespace laplus {
 
 // Generators
@@ -377,8 +379,21 @@ void Vectorf::gemv(const float alpha, const Matrixf& A,
 void Vectorf::mul_inplace(const Vectorf& other)
 {
   assert(this->length == other.length);
-  for(std::size_t i = 0; i < this->length; ++i) {
-    (*this)[i] *= other[i];
+  if(this->length == static_cast<internal::SharedArray<float>*>(this)->size()) {
+    contiguous_mul_inplace(other);
+  } else {
+    for(std::size_t i = 0; i < this->length; ++i) {
+      (*this)[i] *= other[i];
+    }
+  }
+}
+
+void Vectorf::contiguous_mul_inplace(const Vectorf& other)
+{
+  __m256* const x = (__m256*)(this->get());
+  __m256* const y = (__m256*)(other.get());
+  for(std::size_t i = 0; i < this->length / (sizeof(float) * 8); ++i) {
+    x[i] = _mm256_mul_ps(x[i], y[i]);
   }
 }
 

@@ -37,6 +37,7 @@
 #include <functional>
 #include <memory>
 #include "cblas.h"
+#include <iostream>
 
 namespace laplus {
 
@@ -129,6 +130,8 @@ public:
   void mul_inplace(const Vectorf&);
   void div_inplace(const Vectorf&);
   void pow_inplace(const Vectorf&);
+
+  void contiguous_mul_inplace(const Vectorf&);
 
   void add_inplace(const float);
   void sub_inplace(const float);
