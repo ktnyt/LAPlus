@@ -31,8 +31,10 @@ namespace internal {
 
 namespace {
 template<typename T>
+
 std::size_t align(const std::size_t size)
-{ return size + ((sizeof(T) * size) % 32); }
+{ return size + (size % (256 / (sizeof(T) * 8))); }
+
 }  // unnamed namespace
 
 template<typename T>
