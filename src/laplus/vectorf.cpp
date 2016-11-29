@@ -396,8 +396,11 @@ void Vectorf::contiguous_mul_inplace(const Vectorf& other)
 {
   __m256* const x = (__m256*)(this->get());
   const __m256* const y = (__m256*)(other.get());
-  for(std::size_t i = 0; i < this->aligned_size() / (32 / sizeof(float)); ++i) {
-    x[i] = _mm256_mul_ps(x[i], y[i]);
+  for(std::size_t i = 0; i < this->aligned_size(); i += 8) {
+    __m256 v0 = _mm256_load_ps(this->get() + i);
+    __m256 v1 = _mm256_load_ps(other.get() + i);
+    __m256 v2 = _mm256_mul_ps(v0, v1);
+    _mm256_store_ps(this->get() + i, v2);
   }
 }
 
