@@ -80,7 +80,7 @@ Array<T>& Array<T>::operator=(Array<T>&& other) noexcept
 template<typename T>
 T& Array<T>::operator[](std::size_t index) const
 {
-  assert(index < align(this->length));
+  assert(index < align<T>(this->length));
   return *(this->buffer + index);
 }
 
