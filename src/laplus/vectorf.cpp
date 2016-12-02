@@ -313,6 +313,7 @@ void swap(Vectorf& a, Vectorf& b)
             static_cast<internal::SharedArray<float>&>(b));
   swap(a.offset, b.offset);
   swap(a.stride, b.stride);
+  swap(a.length, b.length);
 }
 
 Vectorf Vectorf::clone() const
