@@ -393,6 +393,27 @@ void Vectorf::mul_inplace(const Vectorf& other)
   }
 }
 
+void Vectorf::div_inplace(const Vectorf& other)
+{
+  assert(this->length == other.length);
+  if(this->length == this->aligned_size()
+  && other.length == other.aligned_size()) {
+    contiguous_div_inplace(other);
+  } else {
+    for(std::size_t i = 0; i < this->length; ++i) {
+      (*this)[i] /= other[i];
+    }
+  }
+}
+
+void Vectorf::pow_inplace(const Vectorf& other)
+{
+  assert(this->length == other.length);
+  for(std::size_t i = 0; i < this->length; ++i) {
+    (*this)[i] = std::pow((*this)[i], other[i]);
+  }
+}
+
 void Vectorf::contiguous_mul_inplace(const Vectorf& other)
 {
   __m256* const x = (__m256*)(this->get());
@@ -405,19 +426,15 @@ void Vectorf::contiguous_mul_inplace(const Vectorf& other)
   }
 }
 
-void Vectorf::div_inplace(const Vectorf& other)
+void Vectorf::contiguous_div_inplace(const Vectorf& other)
 {
-  assert(this->length == other.length);
-  for(std::size_t i = 0; i < this->length; ++i) {
-    (*this)[i] /= other[i];
-  }
-}
-
-void Vectorf::pow_inplace(const Vectorf& other)
-{
-  assert(this->length == other.length);
-  for(std::size_t i = 0; i < this->length; ++i) {
-    (*this)[i] = std::pow((*this)[i], other[i]);
+  __m256* const x = (__m256*)(this->get());
+  const __m256* const y = (__m256*)(other.get());
+  for(std::size_t i = 0; i < this->aligned_size(); i += 8) {
+    __m256 v0 = _mm256_loadu_ps(this->get() + i);
+    __m256 v1 = _mm256_loadu_ps(other.get() + i);
+    __m256 v2 = _mm256_div_ps(v0, v1);
+    _mm256_storeu_ps(this->get() + i, v2);
   }
 }
 
