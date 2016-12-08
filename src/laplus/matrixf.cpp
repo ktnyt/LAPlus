@@ -101,6 +101,14 @@ Matrixf Matrixf::Normal(const std::size_t rows, const std::size_t cols,
   return result;
 }
 
+Matrixf Matrixf::Identity(const std::size_t size)
+{
+  Matrixf result(size, size);
+  for(std::size_t i = 0; i < size; ++i) {
+    result[i][i] = 1.0;
+  }
+  return result;
+}
 
 // Constructors and Destructor
 Matrixf::Matrixf(const std::size_t rows, const std::size_t cols)

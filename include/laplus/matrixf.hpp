@@ -52,6 +52,8 @@ public:
   static Matrixf Normal(const std::size_t, const std::size_t,
                         const float, const float);
 
+  static Matrixf Identity(const std::size_t);
+
   // Constructors and Destructor
   Matrixf()=delete;
   Matrixf(const std::size_t, const std::size_t);

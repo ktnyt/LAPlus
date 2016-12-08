@@ -1630,6 +1630,16 @@ TEST(LAPlusMatrixf, GeneratorUniform) {
   }
 }
 
+TEST(LAPlusMatrixf, GeneratorIdentity) {
+  Matrixf v0 = Matrixf::Identity(3);
+  std::vector<std::vector<float>> t0 = {{1, 0, 0},
+                                        {0, 1, 0},
+                                        {0, 0, 1}};
+
+  ASSERT_EQ(v0.use_count(), 1);
+  ASSERT_EQ(v0, t0);
+}
+
 }  // namespace laplus
 
 
