@@ -40,6 +40,9 @@ float dtanh(const float);
 float relu(const float);
 float drelu(const float);
 
+float exp(const float);
+float dexp(const float);
+
 }  // namespace laplus
 
 #endif  // __LAPLUS_MATH_HPP__

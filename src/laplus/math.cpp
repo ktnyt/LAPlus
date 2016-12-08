@@ -51,6 +51,12 @@ float relu(const float x)
 float drelu(const float y)
 { return y > 0.0 ? 1.0 : 0.0; }
 
+float exp(const float x)
+{ return std::exp(x); }
+
+float dexp(const float y)
+{ return y; }
+
 }  // namespace laplus
 
 
