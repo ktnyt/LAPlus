@@ -169,6 +169,7 @@ public:
 
   // Linear Algebra
   float inner(const Vectorf&) const;
+  Vectorf dot(const Matrixf&) const;
 private:
   std::size_t offset;
   std::size_t stride;

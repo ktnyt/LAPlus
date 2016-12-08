@@ -62,6 +62,7 @@ public:
   Matrixf(const std::vector<std::vector<float>>&);
   Matrixf(const Matrixf&);
   Matrixf(Matrixf&&) noexcept;
+  explicit Matrixf(const Vectorf&);
   virtual ~Matrixf();
 
   // Assignment Operators
@@ -153,6 +154,7 @@ public:
 
   // Linear Algebra
   Matrixf dot(const Matrixf&) const;
+  Vectorf dot(const Vectorf&) const;
   void dot(const Matrixf&, const Matrixf&);
 private:
   std::pair<std::size_t, std::size_t> shape;

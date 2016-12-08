@@ -137,6 +137,10 @@ Matrixf::Matrixf(Matrixf&& other) noexcept
   , shape(other.shape), trans(other.trans)
 { other.shape = shape_t(0, 0); }
 
+Matrixf::Matrixf(const Vectorf& other)
+  : Vectorf(other), shape(shape_t(1, other.size())), trans(CblasNoTrans)
+{}
+
 Matrixf::~Matrixf() {}
 
 // Assignment Operators
@@ -570,10 +574,11 @@ Matrixf Matrixf::dot(const Matrixf& other) const
   return result;
 }
 
+Vectorf Matrixf::dot(const Vectorf& other) const
+{ return Vectorf(Matrixf(other).dot(this->transpose())); }
+
 void Matrixf::dot(const Matrixf& a, const Matrixf& b)
-{
-  this->gemm(1.0, a, b, 0.0);
-}
+{ this->gemm(1.0, a, b, 0.0); }
 
 const bool operator==(const Matrixf& a, const Matrixf& b)
 {

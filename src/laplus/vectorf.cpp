@@ -593,6 +593,9 @@ const float Vectorf::minCoeff(std::size_t& min_i) const
 float Vectorf::inner(const Vectorf& other) const
 { return this->dot(other); }
 
+Vectorf Vectorf::dot(const Matrixf& other) const
+{ return Vectorf(Matrixf(*this).dot(other)); }
+
 // Non-member functions
 const bool operator==(const Vectorf& a, const Vectorf& b)
 {
