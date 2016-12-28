@@ -70,7 +70,7 @@ Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
 { return Uniform(rows, cols, 0.0, max); }
 
 Matrixf Matrixf::Uniform(const std::size_t rows, const std::size_t cols,
-                         const float max, const float min)
+                         const float min, const float max)
 {
   Matrixf result(rows, cols);
   std::mt19937 generator;
